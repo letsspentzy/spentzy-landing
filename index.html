@@ -92,6 +92,81 @@
         }
         .form-message.success { color: #0a7c42; }
         .form-message.error { color: #c53030; }
+        .whats-spentzy-trigger {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: #666;
+            background: none;
+            border: none;
+            padding: 0.25em 0;
+            margin: 0;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: color 0.2s, background-size 0.3s;
+        }
+        .whats-spentzy-trigger:hover {
+            background: linear-gradient(90deg, #e63946, #f4a261, #e9c46a, #2a9d8f, #457b9d, #7b2cbf);
+            background-size: 400% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            animation: rainbow-shift 1.5s ease infinite;
+        }
+        @keyframes rainbow-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .modal-backdrop.is-open { display: flex; }
+        .modal-box {
+            background: #fff;
+            max-width: 440px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .modal-box .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            padding: 0.25rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: #666;
+        }
+        .modal-box .modal-close:hover { color: #1a1a1a; }
+        .modal-box .modal-body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.65;
+            color: #333;
+            text-align: left;
+            padding-right: 1.5rem;
+        }
+        .modal-box .modal-body p { margin: 0 0 1rem 0; }
+        .modal-box .modal-body p:last-child { margin-bottom: 0; }
+        .modal-box .modal-body .tagline-line { margin-top: 1.25rem; }
+        .modal-box .modal-body .modal-coming-soon { margin-top: 1.25rem; font-size: 0.9rem; color: #666; }
         .form-target-iframe {
             position: absolute;
             width: 0;
@@ -112,9 +187,48 @@
             <button type="submit" id="waitlist-btn">Join the waitlist</button>
         </form>
         <p id="form-message" class="form-message" aria-live="polite"></p>
+        <button type="button" class="whats-spentzy-trigger" id="whats-spentzy-btn">What's Spentzy?</button>
+    </div>
+    <div class="modal-backdrop" id="whats-spentzy-modal" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-labelledby="modal-title">
+            <button type="button" class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+            <div class="modal-body" id="modal-title">
+                <p>This app isn't about being perfect with money. Your fixed expenses are fixed. End of story.</p>
+                <p>This app is about everything else. The little things that sneak in. Coffee. Rides. Late-night orders. The "oops" moments that add up faster than you think.</p>
+                <p>You can't control what's fixed. But you can control what slips.</p>
+                <p>See where your money quietly goes.</p>
+                <p class="tagline-line">No budgets.<br>No guilt.<br>No spreadsheets.</p>
+                <p><strong>Just Spentzy it.</strong></p>
+                <p class="modal-coming-soon">(coming soon the App Store)</p>
+            </div>
+        </div>
     </div>
     <iframe name="form-target-iframe" id="form-target-iframe" class="form-target-iframe" title="Form submission target"></iframe>
     <script>
+        (function () {
+            var trigger = document.getElementById('whats-spentzy-btn');
+            var modal = document.getElementById('whats-spentzy-modal');
+            var closeBtn = document.getElementById('modal-close');
+            if (!trigger || !modal) return;
+            function openModal() {
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+            trigger.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+            });
+        })();
         (function () {
             var FORM_ID = '1FAIpQLSdIedh980vL9hT8DpGUjHuC-Ph_njgRZQ5dD5eTFgS0HVIv5g';
             var ENTRY_ID = '1234705671';
