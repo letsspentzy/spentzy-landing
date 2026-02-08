@@ -85,6 +85,21 @@
             font-weight: 600;
         }
         button:hover { background: #333; }
+        .form-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            min-height: 1.4em;
+        }
+        .form-message.success { color: #0a7c42; }
+        .form-message.error { color: #c53030; }
+        .form-target-iframe {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -92,10 +107,52 @@
         <img class="logo" src="imgs/Spentzy_AppIcon_4096x4096.png" alt="Spentzy" />
         <h1 class="brand-name">Spentzy</h1>
         <p class="tagline">No budgets. No spreadsheets. Just Spentzy it.</p>
-        <form class="waitlist-form">
-            <input type="email" placeholder="your@email.com" required>
-            <button type="submit">Join the waitlist</button>
+        <form id="waitlist-form" class="waitlist-form" action="" method="POST" target="form-target-iframe">
+            <input type="email" placeholder="your@email.com" required id="waitlist-email">
+            <button type="submit" id="waitlist-btn">Join the waitlist</button>
         </form>
+        <p id="form-message" class="form-message" aria-live="polite"></p>
     </div>
+    <iframe name="form-target-iframe" id="form-target-iframe" class="form-target-iframe" title="Form submission target"></iframe>
+    <script>
+        (function () {
+            var FORM_ID = '1FAIpQLSdIedh980vL9hT8DpGUjHuC-Ph_njgRZQ5dD5eTFgS0HVIv5g';
+            var ENTRY_ID = '1234705671';
+
+            var form = document.getElementById('waitlist-form');
+            var emailInput = document.getElementById('waitlist-email');
+            var btn = document.getElementById('waitlist-btn');
+            var messageEl = document.getElementById('form-message');
+
+            function setMessage(text, type) {
+                messageEl.textContent = text;
+                messageEl.className = 'form-message ' + (type || '');
+            }
+
+            function setFormConfig() {
+                form.action = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse';
+                emailInput.name = 'entry.' + ENTRY_ID;
+            }
+
+            form.addEventListener('submit', function (e) {
+                if (FORM_ID === 'PLACEHOLDER_FORM_ID' || ENTRY_ID === 'PLACEHOLDER_ENTRY_ID') {
+                    e.preventDefault();
+                    setMessage('Form not configured: set FORM_ID and ENTRY_ID in index.html.', 'error');
+                    return;
+                }
+                setFormConfig();
+                setMessage('');
+                btn.disabled = true;
+                btn.textContent = 'Joining…';
+                // Form will POST to the iframe; we show success optimistically
+                setTimeout(function () {
+                    setMessage('Thanks for joining the waitlist!', 'success');
+                    btn.textContent = 'Join the waitlist';
+                    btn.disabled = false;
+                    emailInput.value = '';
+                }, 1500);
+            });
+        })();
+    </script>
 </body>
 </html>
