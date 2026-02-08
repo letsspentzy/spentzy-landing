@@ -118,6 +118,9 @@
         (function () {
             var FORM_ID = '1FAIpQLSdIedh980vL9hT8DpGUjHuC-Ph_njgRZQ5dD5eTFgS0HVIv5g';
             var ENTRY_ID = '1234705671';
+            var STORAGE_KEY = 'spentzy_waitlist';
+            // Production: set to your deployed backend URL + '/check' (e.g. https://your-app.railway.app/check). Leave '' to skip server-side duplicate check (localStorage still blocks same-browser repeats).
+            var WAITLIST_CHECK_URL = '';
 
             var form = document.getElementById('waitlist-form');
             var emailInput = document.getElementById('waitlist-email');
@@ -129,28 +132,79 @@
                 messageEl.className = 'form-message ' + (type || '');
             }
 
+            function getStoredEmails() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : [];
+                } catch (e) { return []; }
+            }
+
+            function addStoredEmail(email) {
+                var list = getStoredEmails();
+                var norm = email.trim().toLowerCase();
+                if (list.indexOf(norm) === -1) list.push(norm);
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch (e) {}
+            }
+
             function setFormConfig() {
                 form.action = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse';
                 emailInput.name = 'entry.' + ENTRY_ID;
             }
 
-            form.addEventListener('submit', function (e) {
-                if (FORM_ID === 'PLACEHOLDER_FORM_ID' || ENTRY_ID === 'PLACEHOLDER_ENTRY_ID') {
-                    e.preventDefault();
-                    setMessage('Form not configured: set FORM_ID and ENTRY_ID in index.html.', 'error');
-                    return;
-                }
+            function doSubmit() {
                 setFormConfig();
                 setMessage('');
                 btn.disabled = true;
                 btn.textContent = 'Joining…';
-                // Form will POST to the iframe; we show success optimistically
+                form.submit();
+                addStoredEmail(emailInput.value);
                 setTimeout(function () {
                     setMessage('Thanks for joining the waitlist!', 'success');
                     btn.textContent = 'Join the waitlist';
                     btn.disabled = false;
                     emailInput.value = '';
                 }, 1500);
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var email = (emailInput.value || '').trim();
+                if (!email) return;
+
+                var norm = email.toLowerCase();
+                if (getStoredEmails().indexOf(norm) !== -1) {
+                    setMessage("You're already on the waitlist!", 'success');
+                    return;
+                }
+
+                if (!WAITLIST_CHECK_URL) {
+                    doSubmit();
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Checking…';
+                setMessage('');
+                var url = WAITLIST_CHECK_URL + (WAITLIST_CHECK_URL.indexOf('?') >= 0 ? '&' : '?') + 'email=' + encodeURIComponent(email) + '&t=' + Date.now();
+                fetch(url, { cache: 'no-store' })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('check failed');
+                        return res.json();
+                    })
+                    .then(function (data) {
+                        btn.disabled = false;
+                        btn.textContent = 'Join the waitlist';
+                        if (data && data.onList) {
+                            setMessage("You're already on the waitlist!", 'success');
+                        } else {
+                            doSubmit();
+                        }
+                    })
+                    .catch(function () {
+                        btn.disabled = false;
+                        btn.textContent = 'Join the waitlist';
+                        setMessage('Could not check. Try again.', 'error');
+                    });
             });
         })();
     </script>

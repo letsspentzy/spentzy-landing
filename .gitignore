@@ -1,0 +1,23 @@
+# Env and secrets (never commit API keys)
+.env
+.env.local
+.env.*.local
+backend/.env
+*.pem
+
+# Python
+backend/venv/
+backend/__pycache__/
+*.py[cod]
+*.pyo
+.Python
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
