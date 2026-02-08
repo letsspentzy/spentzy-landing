@@ -119,6 +119,21 @@
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
         }
+        .triggers-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.35em;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .triggers-row .sep {
+            color: #bbb;
+            user-select: none;
+        }
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -167,6 +182,17 @@
         .modal-box .modal-body p:last-child { margin-bottom: 0; }
         .modal-box .modal-body .tagline-line { margin-top: 1.25rem; }
         .modal-box .modal-body .modal-coming-soon { margin-top: 1.25rem; font-size: 0.9rem; color: #666; }
+        .modal-box .modal-body a { color: #667eea; text-decoration: none; }
+        .modal-box .modal-body a:hover { text-decoration: underline; }
+        .modal-box .modal-body ol { margin: 0.5rem 0 1rem 1.25rem; padding: 0; }
+        .modal-box .modal-body li { margin-bottom: 0.5rem; }
+        .beta-form-wrap { margin-top: 1.25rem; }
+        .beta-form-wrap input { width: 100%; max-width: 100%; }
+        .beta-form-wrap input { margin-bottom: 0.5rem; }
+        .beta-form-wrap input:last-of-type { margin-bottom: 0; }
+        .beta-form-wrap button { margin-top: 0.75rem; width: 100%; }
+        .beta-form-message { margin-top: 0.75rem; font-size: 0.9rem; min-height: 1.2em; }
+        .beta-form-message.success { color: #0a7c42; }
         .form-target-iframe {
             position: absolute;
             width: 0;
@@ -187,7 +213,11 @@
             <button type="submit" id="waitlist-btn">Join the waitlist</button>
         </form>
         <p id="form-message" class="form-message" aria-live="polite"></p>
-        <button type="button" class="whats-spentzy-trigger" id="whats-spentzy-btn">What's Spentzy?</button>
+        <div class="triggers-row">
+            <button type="button" class="whats-spentzy-trigger" id="whats-spentzy-btn">What's Spentzy?</button>
+            <span class="sep">|</span>
+            <button type="button" class="whats-spentzy-trigger" id="beta-tester-btn">Wanna be a Beta Tester?</button>
+        </div>
     </div>
     <div class="modal-backdrop" id="whats-spentzy-modal" aria-hidden="true">
         <div class="modal-box" role="dialog" aria-labelledby="modal-title">
@@ -201,6 +231,29 @@
                 <p class="tagline-line">No budgets.<br>No guilt.<br>No spreadsheets.</p>
                 <p><strong>Just Spentzy it.</strong></p>
                 <p class="modal-coming-soon">(coming soon to the App Store)</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" id="beta-tester-modal" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-labelledby="beta-modal-title">
+            <button type="button" class="modal-close" id="beta-modal-close" aria-label="Close">&times;</button>
+            <div class="modal-body" id="beta-modal-title">
+                <p><strong>Want to be a Beta Tester?</strong></p>
+                <p>Thank you! Seriously. Your feedback is what helps turn Spentzy from "pretty good" to "actually useful."</p>
+                <p>Here's what you need to join:</p>
+                <ol>
+                    <li><a href="https://itunes.apple.com/us/app/testflight/id899247664?mt=8" target="_blank" rel="noopener noreferrer">TestFlight</a> installed on your iPhone</li>
+                    <li>Your App Store email (the one linked to your Apple ID) – drop it in the form below</li>
+                    <li>Your honest thoughts – bugs, confusion, ideas, whatever comes up. Send me your email at <a href="mailto:letsspentzy@gmail.com">letsspentzy@gmail.com</a>.</li>
+                </ol>
+                <p>I can't promise I'll build everything you suggest, but I can promise I'll read it all and take it seriously.</p>
+                <p>Ready? Let's do this.</p>
+                <form id="beta-form" class="beta-form-wrap" novalidate>
+                    <input type="text" placeholder="Your name" id="beta-name" required aria-label="Your name">
+                    <input type="email" placeholder="Your App Store email" id="beta-email" required aria-label="App Store email">
+                    <button type="submit" id="beta-submit-btn">I'm in</button>
+                    <p id="beta-form-message" class="beta-form-message" aria-live="polite"></p>
+                </form>
             </div>
         </div>
     </div>
@@ -229,6 +282,81 @@
             document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
             });
+        })();
+        (function () {
+            // Replace with your Formspree form ID from https://formspree.io (e.g. xyzabc from https://formspree.io/f/xyzabc)
+            var BETA_FORMSPREE_ID = 'mdalkned';
+            var betaTrigger = document.getElementById('beta-tester-btn');
+            var betaModal = document.getElementById('beta-tester-modal');
+            var betaCloseBtn = document.getElementById('beta-modal-close');
+            var betaName = document.getElementById('beta-name');
+            var betaEmail = document.getElementById('beta-email');
+            var betaSubmitBtn = document.getElementById('beta-submit-btn');
+            var betaMessageEl = document.getElementById('beta-form-message');
+            if (!betaTrigger || !betaModal) return;
+            function openBetaModal() {
+                betaModal.classList.add('is-open');
+                betaModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+            function closeBetaModal() {
+                betaModal.classList.remove('is-open');
+                betaModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            }
+            betaTrigger.addEventListener('click', openBetaModal);
+            betaCloseBtn.addEventListener('click', closeBetaModal);
+            betaModal.addEventListener('click', function (e) {
+                if (e.target === betaModal) closeBetaModal();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && betaModal.classList.contains('is-open')) closeBetaModal();
+            });
+            var betaForm = document.getElementById('beta-form');
+            if (betaForm && betaSubmitBtn && betaName && betaEmail && betaMessageEl) {
+                betaForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var name = (betaName.value || '').trim();
+                    var email = (betaEmail.value || '').trim();
+                    if (!name) {
+                        betaMessageEl.textContent = 'Please enter your name.';
+                        betaMessageEl.className = 'beta-form-message';
+                        return;
+                    }
+                    if (!email) {
+                        betaMessageEl.textContent = 'Please enter your email.';
+                        betaMessageEl.className = 'beta-form-message';
+                        return;
+                    }
+                    if (BETA_FORMSPREE_ID === 'YOUR_FORMSPREE_FORM_ID') {
+                        betaMessageEl.textContent = 'Form not configured. Please set BETA_FORMSPREE_ID in the code.';
+                        betaMessageEl.className = 'beta-form-message';
+                        return;
+                    }
+                    betaSubmitBtn.disabled = true;
+                    betaMessageEl.textContent = 'Sending…';
+                    betaMessageEl.className = 'beta-form-message';
+                    fetch('https://formspree.io/f/' + BETA_FORMSPREE_ID, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name: name, email: email, _subject: 'New Spentzy Beta Tester' })
+                    })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('Send failed');
+                        betaMessageEl.textContent = "Got it! 🎉 I'll send the TestFlight invite to your email soon. Keep an eye on your inbox!";
+                        betaMessageEl.className = 'beta-form-message success';
+                        betaName.value = '';
+                        betaEmail.value = '';
+                    })
+                    .catch(function () {
+                        betaMessageEl.textContent = 'Something went wrong. Please try again or email letsspentzy@gmail.com.';
+                        betaMessageEl.className = 'beta-form-message';
+                    })
+                    .finally(function () {
+                        betaSubmitBtn.disabled = false;
+                    });
+                });
+            }
         })();
         (function () {
             var FORM_ID = '1FAIpQLSdIedh980vL9hT8DpGUjHuC-Ph_njgRZQ5dD5eTFgS0HVIv5g';
