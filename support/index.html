@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support — Spentzy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f9f9f7;
+            --text: #1a1a1a;
+            --muted: #888;
+            --accent: #1a1a1a;
+            --border: #e5e5e2;
+            --card: #ffffff;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 48px 40px 0;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .wordmark {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 18px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 64px 40px 120px;
+        }
+
+        .page-title {
+            font-size: clamp(36px, 6vw, 52px);
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 64px;
+        }
+
+        section {
+            margin-bottom: 72px;
+        }
+
+        h2 {
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .faq-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin-bottom: 16px;
+        }
+
+        .faq-item h3 {
+            font-size: 18px;
+            font-weight: 400;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .faq-item p {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .contact-form {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 48px;
+        }
+
+        .form-intro {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--text);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background: var(--text);
+            color: var(--bg);
+            font-family: 'Jost', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            opacity: 0.85;
+        }
+
+        button[type="submit"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-message {
+            margin-top: 20px;
+            font-size: 15px;
+            min-height: 1.4em;
+        }
+
+        .form-message.success { color: #0a7c42; }
+        .form-message.error { color: #c53030; }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 0 72px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 0 40px 48px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 32px 24px 0;
+            }
+            main {
+                padding: 48px 24px 80px;
+            }
+            .faq-item,
+            .contact-form {
+                padding: 24px 24px;
+            }
+            footer {
+                padding: 0 24px 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="https://spentzy.app" class="wordmark">Spentzy</a>
+    </header>
+
+    <main>
+
+        <h1 class="page-title">Support</h1>
+        <p class="subtitle">Got questions? We've got answers.</p>
+
+        <section>
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>Where is my data stored?</h3>
+                <p>Everything stays on your device. Spentzy doesn't sync to the cloud or send your data anywhere. If you delete the app, your data is deleted with it.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do I need to create an account?</h3>
+                <p>Nope. Just download and start tracking. No sign-ups, no passwords, no accounts.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I back up my data?</h3>
+                <p>Your Spentzy data is included in your iPhone's local backup (iCloud or iTunes). As long as you back up your device, your expenses are backed up too.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I export my expenses?</h3>
+                <p>Not in this version. We kept it simple on purpose. Future updates may include export options if there's enough demand.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Does Spentzy connect to my bank?</h3>
+                <p>No. Spentzy is manual tracking only. You add expenses yourself. No bank connections, no automatic imports.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is Spentzy a budgeting app?</h3>
+                <p>Not really. Spentzy is about awareness, not budgets. It helps you see where your discretionary money goes without the pressure of sticking to strict limits.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What platforms does Spentzy support?</h3>
+                <p>iPhone only for now. iOS 16 or later required.</p>
+            </div>
+
+        </section>
+
+        <div class="divider"></div>
+
+        <section>
+            <h2>Still have questions?</h2>
+            
+            <div class="contact-form">
+                <p class="form-intro">Send us a message and we'll get back to you as soon as possible.</p>
+                
+                <form id="support-form" novalidate>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit" id="support-submit-btn">Send Message</button>
+                    <p id="support-form-message" class="form-message" aria-live="polite"></p>
+                </form>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 Spentzy. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function () {
+            // Same Formspree form as beta signup; create a separate form at formspree.io for support if you want different inbox handling
+            var SUPPORT_FORMSPREE_ID = 'mdalkned';
+            var form = document.getElementById('support-form');
+            var nameInput = document.getElementById('name');
+            var emailInput = document.getElementById('email');
+            var messageInput = document.getElementById('message');
+            var submitBtn = document.getElementById('support-submit-btn');
+            var messageEl = document.getElementById('support-form-message');
+
+            if (!form || !messageEl) return;
+
+            function setMessage(text, type) {
+                messageEl.textContent = text;
+                messageEl.className = 'form-message ' + (type || '');
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var name = (nameInput.value || '').trim();
+                var email = (emailInput.value || '').trim();
+                var message = (messageInput.value || '').trim();
+
+                if (!name) {
+                    setMessage('Please enter your name.');
+                    return;
+                }
+                if (!email) {
+                    setMessage('Please enter your email.');
+                    return;
+                }
+                if (!message) {
+                    setMessage('Please enter a message.');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                setMessage('Sending…');
+
+                fetch('https://formspree.io/f/' + SUPPORT_FORMSPREE_ID, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: 'Support request — Spentzy',
+                        name: name,
+                        email: email,
+                        message: message
+                    })
+                })
+                .then(function (res) {
+                    if (!res.ok) throw new Error('Send failed');
+                    setMessage("Thanks! We'll get back to you as soon as possible.", 'success');
+                    form.reset();
+                })
+                .catch(function () {
+                    setMessage('Something went wrong. Please try again or email letsspentzy@gmail.com.', 'error');
+                })
+                .finally(function () {
+                    submitBtn.disabled = false;
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>
