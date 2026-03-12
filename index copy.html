@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Just Spentzy it! - Live on the App Store</title>
+    <title>Join the waitlist | Beta Testers Program active!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet">
@@ -47,26 +47,51 @@
             font-weight: 300;
             font-size: 0.95rem;
             color: #555;
-            margin: 1.25rem 0 0.75rem 0;
+            margin: 1.25rem 0 2.5rem 0;
             line-height: 1.4;
         }
         @media (min-width: 520px) {
             .tagline { white-space: nowrap; }
         }
-        .app-store-badge-wrap {
-            display: inline-block;
-            margin: 0.5rem 0 2rem;
-            transition: transform 0.25s ease;
+        .waitlist-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            align-items: center;
         }
-        .app-store-badge-wrap:hover {
-            transform: scale(1.04);
+        input {
+            padding: 14px 20px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            width: 280px;
+            background: #fff;
+            color: #1a1a1a;
         }
-        .app-store-badge-wrap img {
-            display: block;
-            height: 60px;
-            width: auto;
-            filter: invert(1);
+        input::placeholder { color: #999; }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
         }
+        button {
+            padding: 14px 32px;
+            font-size: 16px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        button:hover { background: #333; }
+        .form-message {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            min-height: 1.4em;
+        }
+        .form-message.success { color: #0a7c42; }
+        .form-message.error { color: #c53030; }
         .whats-spentzy-trigger {
             font-family: 'Jost', sans-serif;
             font-weight: 300;
@@ -196,10 +221,6 @@
         .modal-box .modal-body p:last-child { margin-bottom: 0; }
         .modal-box .modal-body .tagline-line { margin-top: 1.25rem; }
         .modal-box .modal-body .modal-coming-soon { margin-top: 1.25rem; font-size: 0.9rem; color: #666; }
-        .modal-app-store-wrap { margin-top: 1rem; }
-        .modal-app-store-wrap a { display: inline-block; transition: transform 0.2s ease; }
-        .modal-app-store-wrap a:hover { transform: scale(1.04); }
-        .modal-app-store-wrap img { display: block; height: 44px; width: auto; filter: invert(1); }
         .modal-box .modal-body a { color: #667eea; text-decoration: none; }
         .modal-box .modal-body a:hover { text-decoration: underline; }
         .modal-box .modal-body ol { margin: 0.5rem 0 1rem 1.25rem; padding: 0; }
@@ -211,6 +232,14 @@
         .beta-form-wrap button { margin-top: 0.75rem; width: 100%; }
         .beta-form-message { margin-top: 0.75rem; font-size: 0.9rem; min-height: 1.2em; }
         .beta-form-message.success { color: #0a7c42; }
+        .form-target-iframe {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -218,9 +247,11 @@
         <img class="logo" src="imgs/Spentzy_AppIcon_4096x4096.png" alt="Spentzy" />
         <h1 class="brand-name">Spentzy</h1>
         <p class="tagline">No budgets. No spreadsheets. Just Spentzy it.</p>
-        <a href="https://apps.apple.com/us/app/spentzy/id6758644577" class="app-store-badge-wrap app-store-badge-link" target="_blank" rel="noopener noreferrer" aria-label="Download Spentzy on the App Store">
-            <img src="imgs/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg" alt="Download on the App Store">
-        </a>
+        <form id="waitlist-form" class="waitlist-form" action="" method="POST" target="form-target-iframe">
+            <input type="email" placeholder="your@email.com" required id="waitlist-email">
+            <button type="submit" id="waitlist-btn">Join the waitlist</button>
+        </form>
+        <p id="form-message" class="form-message" aria-live="polite"></p>
         <div class="triggers-row">
             <button type="button" class="whats-spentzy-trigger" id="whats-spentzy-btn">What's Spentzy?</button>
             <span class="sep">|</span>
@@ -247,12 +278,7 @@
                 <p>Spentzy takes three taps. No setup, no complexity, no friction.</p>
                 <p>Track in seconds. See where your money goes. Build the habit.</p>
                 <p><strong>Simple expense tracking. Finally.</strong></p>
-                <p class="modal-coming-soon">Download it from the App Store</p>
-                <div class="modal-app-store-wrap">
-                    <a href="https://apps.apple.com/us/app/spentzy/id6758644577" class="app-store-badge-link" target="_blank" rel="noopener noreferrer" aria-label="Download Spentzy on the App Store">
-                        <img src="imgs/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg" alt="Download on the App Store">
-                    </a>
-                </div>
+                <p class="modal-coming-soon">(coming soon to the App Store)</p>
             </div>
         </div>
     </div>
@@ -279,6 +305,7 @@
             </div>
         </div>
     </div>
+    <iframe name="form-target-iframe" id="form-target-iframe" class="form-target-iframe" title="Form submission target"></iframe>
     <script>
         (function () {
             var trigger = document.getElementById('whats-spentzy-btn');
@@ -380,22 +407,95 @@
             }
         })();
         (function () {
-            var BADGE_FORMSPREE_ID = 'mdalkned';
-            var badges = document.querySelectorAll('.app-store-badge-link');
-            badges.forEach(function (badge) {
-                badge.addEventListener('click', function () {
-                fetch('https://formspree.io/f/' + BADGE_FORMSPREE_ID, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        _subject: 'App Store badge clicked',
-                        message: 'Someone clicked the App Store badge',
-                        source: document.querySelector('#whats-spentzy-modal').contains(badge) ? 'whats-spentzy-modal' : 'landing',
-                        timestamp: new Date().toISOString()
-                    }),
-                    keepalive: true
-                });
-                });
+            var FORM_ID = '1FAIpQLSdIedh980vL9hT8DpGUjHuC-Ph_njgRZQ5dD5eTFgS0HVIv5g';
+            var ENTRY_ID = '1234705671';
+            var STORAGE_KEY = 'spentzy_waitlist';
+            // Production: set to your deployed backend URL + '/check' (e.g. https://your-app.railway.app/check). Leave '' to skip server-side duplicate check (localStorage still blocks same-browser repeats).
+            var WAITLIST_CHECK_URL = '';
+
+            var form = document.getElementById('waitlist-form');
+            var emailInput = document.getElementById('waitlist-email');
+            var btn = document.getElementById('waitlist-btn');
+            var messageEl = document.getElementById('form-message');
+
+            function setMessage(text, type) {
+                messageEl.textContent = text;
+                messageEl.className = 'form-message ' + (type || '');
+            }
+
+            function getStoredEmails() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : [];
+                } catch (e) { return []; }
+            }
+
+            function addStoredEmail(email) {
+                var list = getStoredEmails();
+                var norm = email.trim().toLowerCase();
+                if (list.indexOf(norm) === -1) list.push(norm);
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch (e) {}
+            }
+
+            function setFormConfig() {
+                form.action = 'https://docs.google.com/forms/d/e/' + FORM_ID + '/formResponse';
+                emailInput.name = 'entry.' + ENTRY_ID;
+            }
+
+            function doSubmit() {
+                setFormConfig();
+                setMessage('');
+                btn.disabled = true;
+                btn.textContent = 'Joining…';
+                form.submit();
+                addStoredEmail(emailInput.value);
+                setTimeout(function () {
+                    setMessage('Thanks for joining the waitlist!', 'success');
+                    btn.textContent = 'Join the waitlist';
+                    btn.disabled = false;
+                    emailInput.value = '';
+                }, 1500);
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var email = (emailInput.value || '').trim();
+                if (!email) return;
+
+                var norm = email.toLowerCase();
+                if (getStoredEmails().indexOf(norm) !== -1) {
+                    setMessage("You're already on the waitlist!", 'success');
+                    return;
+                }
+
+                if (!WAITLIST_CHECK_URL) {
+                    doSubmit();
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Checking…';
+                setMessage('');
+                var url = WAITLIST_CHECK_URL + (WAITLIST_CHECK_URL.indexOf('?') >= 0 ? '&' : '?') + 'email=' + encodeURIComponent(email) + '&t=' + Date.now();
+                fetch(url, { cache: 'no-store' })
+                    .then(function (res) {
+                        if (!res.ok) throw new Error('check failed');
+                        return res.json();
+                    })
+                    .then(function (data) {
+                        btn.disabled = false;
+                        btn.textContent = 'Join the waitlist';
+                        if (data && data.onList) {
+                            setMessage("You're already on the waitlist!", 'success');
+                        } else {
+                            doSubmit();
+                        }
+                    })
+                    .catch(function () {
+                        btn.disabled = false;
+                        btn.textContent = 'Join the waitlist';
+                        setMessage('Could not check. Try again.', 'error');
+                    });
             });
         })();
     </script>
