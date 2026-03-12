@@ -55,7 +55,7 @@
         }
         .app-store-badge-wrap {
             display: inline-block;
-            margin: 0.5rem 0 2rem;
+            margin: 0.5rem 0 1rem;
             transition: transform 0.25s ease;
         }
         .app-store-badge-wrap:hover {
@@ -66,6 +66,15 @@
             height: 60px;
             width: auto;
             filter: invert(1);
+        }
+        .app-store-rating {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0 0 2rem 0;
+            letter-spacing: 0.02em;
+            line-height: 1.4;
         }
         .whats-spentzy-trigger {
             font-family: 'Jost', sans-serif;
@@ -218,9 +227,12 @@
         <img class="logo" src="imgs/Spentzy_AppIcon_4096x4096.png" alt="Spentzy" />
         <h1 class="brand-name">Spentzy</h1>
         <p class="tagline">No budgets. No spreadsheets. Just Spentzy it.</p>
-        <a href="https://apps.apple.com/us/app/spentzy/id6758644577" class="app-store-badge-wrap app-store-badge-link" target="_blank" rel="noopener noreferrer" aria-label="Download Spentzy on the App Store">
-            <img src="imgs/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg" alt="Download on the App Store">
-        </a>
+        <div>
+            <a href="https://apps.apple.com/us/app/spentzy/id6758644577" class="app-store-badge-wrap app-store-badge-link" target="_blank" rel="noopener noreferrer" aria-label="Download Spentzy on the App Store">
+                <img src="imgs/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg" alt="Download on the App Store">
+            </a>
+            <p class="app-store-rating">★ ★ ★ ★ ★<br>on the App Store</p>
+        </div>
         <div class="triggers-row">
             <button type="button" class="whats-spentzy-trigger" id="whats-spentzy-btn">What's Spentzy?</button>
             <span class="sep">|</span>
